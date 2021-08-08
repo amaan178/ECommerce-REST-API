@@ -15,6 +15,7 @@ class User extends Authenticatable
     const VERIFIED_USER = 1;
     const UNVERIFIED_USER = 0;
     const ADMIN_USER = 1;
+    const REGULAR_USER = 0;
 
     /**
      * The attributes that are mass assignable.
@@ -60,7 +61,7 @@ class User extends Authenticatable
         return $this->admin == self::ADMIN_USER;
     }
 
-    public function generateVerificationCode()
+    public static function generateVerificationCode()
     {
         return Str::random(40);
     }
