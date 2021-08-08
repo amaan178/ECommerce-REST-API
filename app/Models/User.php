@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     const VERIFIED_USER = 1;
     const UNVERIFIED_USER = 0;
@@ -75,11 +76,11 @@ class User extends Authenticatable
     /* Mutators */
     public function setNameAttribute(string $name)
     {
-        $this->attribute['name'] = strtolower($name);
+        $this->attributes['name'] = strtolower($name);
     }
 
     public function setEmailAttribute(string $email)
     {
-        $this->attribute['email'] = strtolower($email);
+        $this->attributes['email'] = strtolower($email);
     }
 }

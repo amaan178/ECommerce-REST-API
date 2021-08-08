@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('verified')->unsigned()->default(User::UNVERIFIED_USER);
             $table->string('verification_token')->nullable();
             $table->tinyInteger('admin')->unsigned()->default(User::REGULAR_USER);
+            $table->softDeletes();
             $table->timestamps();
 
             /** TODO: have to add 'admin' column */
