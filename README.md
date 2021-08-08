@@ -10,7 +10,6 @@ So if you want to establish a solid platform for your E-commerce business, you w
 
 - It's Extensible
 APIs connect different software components and enable them to interact with each other by receiving requests and sending responses.
-
 It extends the functionality of an application or website, helping you get work done faster. It also simplifies information sharing.
 
 - Increased Security
@@ -23,7 +22,6 @@ Reusable programs reduce the time and effort developers must spend on the projec
 
 - Scalability
 APIs enable you to connect to any new system without making any changes in the original system, program, or hardware.
-
 It just takes a few lines of code to connect with any new system and offers scalability to handle more complex transactions.
 
 - Synchronization
@@ -33,4 +31,3 @@ Through integrated systems, one company can connect to other companies’ softwa
 
 So as you can see the API revolution involves all of us.
 
-Now let's learn about three common types of API models that get data from systems, turn data into processes, or create an experience.
