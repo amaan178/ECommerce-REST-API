@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Categories;
 
+use App\Http\Controllers\ApiController;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
