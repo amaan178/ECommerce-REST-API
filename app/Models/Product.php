@@ -22,6 +22,21 @@ class Product extends Model
         'seller_id'
     ];
 
+    protected $hidden = [
+        'pivot'
+    ];
+
+    public static function boot()
+    {
+        parent::boot(); // TODO: Change the autogenrated stub
+        self::updated(function(Product $product){
+            if($product->quantity == 0 && $product->isAvailable()) {
+                $product->status = self::UNAVAILABLE_PRODUCT;
+                $product->save();
+            }
+        });
+    }
+
     public function isAvailable() {
         return $this->status == Product::AVAILABLE_PRODUCT;
     }
