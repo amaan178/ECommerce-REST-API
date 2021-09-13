@@ -29,6 +29,7 @@ trait ResponseHelper
            return $this->successResponse(['count' => 0, 'data' => $collection], $code);
        }
        $transformer = $collection->first()->transformer;
+       $collection = $this->sort($collection, $transformer);
        $transformedCollection = $this->transformData($collection, $transformer);
         return $this->successResponse(['count' => $collection->count(), 'data' => $transformedCollection["data"]], $code);
     }
@@ -48,5 +49,15 @@ trait ResponseHelper
     protected function transformData($data, string $transformer){
         $transformedData = fractal($data, new $transformer);
         return $transformedData->toArray();
+    }
+
+    private function sort(Collection $collection, string $transformer)
+    {
+        if(request()->has('sort_by')) {
+            $transformedAttribute = request()->sort_by;
+            $sortByAttribute = $transformer::getOriginalAttribute($transformedAttribute);
+            $collection = $collection->sortBy($sortByAttribute);
+        }
+        return $collection;
     }
 }
