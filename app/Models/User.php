@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Mail\UserCreated;
 use App\Mail\UserMailChanged;
+use App\Transformers\UserTrasformer;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,6 +27,8 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    public string $transformer = UserTrasformer::class;
     protected $fillable = [
         'name',
         'email',
