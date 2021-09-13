@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Mail\UserCreated;
+use App\Mail\UserMailChanged;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
@@ -28,7 +31,8 @@ class User extends Authenticatable
         'email',
         'password',
         'verified',
-        'admin'
+        'admin',
+        'verification_token'
     ];
 
     /**
@@ -41,6 +45,25 @@ class User extends Authenticatable
         'remember_token',
         'verification_token',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::created(function(User $user) {
+            retry(5, function () use($user){
+                Mail::to($user)->send(new UserCreated($user));
+            }, 100);
+        });
+
+        self::updated(function (User $user) {
+            if($user->isDirty('email')) {
+                retry(5, function () use($user){
+                    Mail::to($user)->send(new UserMailChanged($user));
+                },500);
+            }
+        });
+    }
 
     /**
      * The attributes that should be cast to native types.

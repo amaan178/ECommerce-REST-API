@@ -31,4 +31,9 @@ trait ResponseHelper
     {
         return $this->successResponse(['data'=>$model], $code);
     }
+
+    protected function showMessage(string $message, int $code = 200)
+    {
+        return $this->successResponse(['data' => $message], $code);
+    }
 }
