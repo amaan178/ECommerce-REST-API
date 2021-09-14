@@ -30,6 +30,7 @@ trait ResponseHelper
        }
        $transformer = $collection->first()->transformer;
        $collection = $this->sort($collection, $transformer);
+       $collection = $this->filter($collection, $transformer);
        $transformedCollection = $this->transformData($collection, $transformer);
         return $this->successResponse(['count' => $collection->count(), 'data' => $transformedCollection["data"]], $code);
     }
