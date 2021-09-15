@@ -5,12 +5,14 @@ namespace App\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 trait ResponseHelper
 {
     private function successResponse(mixed $data, int $code)
     {
+        $this->cacheResponse($data);
         return response()->json($data, $code);
     }
 
@@ -31,12 +33,14 @@ trait ResponseHelper
            return $this->successResponse(['count' => 0, 'data' => $collection], $code);
        }
        $transformer = $collection->first()->transformer;
+
        $collection = $this->sort($collection, $transformer);
        $collection = $this->filter($collection, $transformer);
        $collection = $this->paginate($collection);
-       $transformedCollection = $this->transformData($collection, $transformer);
 
+       $transformedCollection = $this->transformData($collection, $transformer);
        $transformedCollection['count'] = $collection->count();
+
         return $this->successResponse($transformedCollection, $code);
     }
 
@@ -104,5 +108,18 @@ trait ResponseHelper
         ]);
         $paginator->appends(request()->all());
         return $paginator;
+    }
+
+    private function cacheResponse(mixed $data)
+    {
+        $url = request()->url();
+        $queryParamaters = request()->query();
+        ksort($queryParamaters); // query() se array milega aur ksort sort karke dega according to key
+        $queryString = http_build_query($queryParamaters);
+        $fullUrl = "{$url}?{$queryString}";
+
+        return Cache::remember($fullUrl, 30, function () use ($data) {
+            return $data;
+        });
     }
 }

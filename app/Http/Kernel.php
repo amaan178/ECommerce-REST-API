@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApplicationSignatureMiddleware;
+use App\Http\Middleware\CacheResponser;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -41,6 +42,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            CacheResponser::class,
             'signature:X-App-Name',
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
