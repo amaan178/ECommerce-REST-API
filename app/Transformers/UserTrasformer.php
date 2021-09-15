@@ -41,7 +41,16 @@ class UserTrasformer extends TransformerAbstract
             'creationDate' => $user->created_at,
             'lastChangeDate' => $user->updated_at,
             'deletionDate' => $user->deleted_at ?? null,
+
+            /* HATEOS Implementation */
+            'links' => [
+                [
+                    'rel' => 'self',
+                    'href' => route('users.show', $user->id)
+                ],
+            ],
         ];
+
     }
 
     public static function getOriginalAttribute(string $transformedAttribute)
