@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Response;
 
 class CacheResponser
 {
@@ -20,12 +21,14 @@ class CacheResponser
         $url = request()->url();
         $queryParamaters = request()->query();
         $method = request()->getMethod();
+
         ksort($queryParamaters); // query() se array milega aur ksort sort karke dega according to key
         $queryString = http_build_query($queryParamaters);
+
         $fullUrl = "$method:{$url}?{$queryString}";
 
         if(Cache::has($fullUrl)) {
-            return Cache::get($fullUrl);
+            return new Response(Cache::get($fullUrl));
         }
         return $next($request);
     }

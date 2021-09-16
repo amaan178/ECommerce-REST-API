@@ -6,12 +6,18 @@ use App\Http\Controllers\ApiController;
 use App\Models\Buyer;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Transformers\TransactionTrasformer;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductBuyerTransactionController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('transform.input:' . TransactionTrasformer::class)->only('store');
+    }
+
     public function store(Request $request, Product $product, Buyer $buyer)
     {
         $rules = [

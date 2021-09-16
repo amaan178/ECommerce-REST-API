@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\ApiController;
 use App\Mail\UserCreated;
 use App\Models\User;
+use App\Transformers\UserTrasformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -15,6 +16,12 @@ class UsersController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('transform.input:' . UserTrasformer::class)->only('store', 'update');
+    }
+
     public function index()
     {
         $users = User::all();

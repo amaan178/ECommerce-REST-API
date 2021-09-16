@@ -74,7 +74,7 @@ class ProductTrasformer extends TransformerAbstract
     {
         $attribute = [
             'identifier' => 'id',
-            'name' => 'name',
+            'title' => 'name',
             'details' => 'description',
             'stock' => 'quantity',
             'status' => 'status',
@@ -82,11 +82,28 @@ class ProductTrasformer extends TransformerAbstract
             'seller' => 'seller_id',
             'creationDate' => 'created_at',
             'lastChangeDate' => 'updated_at',
-            'deletionDate' => 'deleted_at' ?? null,
+            'deletionDate' => 'deleted_at',
 
 
         ];
-
         return $attribute[$transformedAttribute] ?? null;
+    }
+
+    public static function getTransformedAttribute(string $originalAttribute)
+    {
+        $attribute = [
+            'identifier' => 'id',
+            'name' => 'title',
+            'details' => 'description',
+            'stock' => 'quantity',
+            'status' => 'status',
+            'picture' => 'image',
+            'seller' => 'seller_id',
+            'creationDate' => 'created_at',
+            'lastChangeDate' => 'updated_at',
+            'deletionDate' => 'deleted_at',
+        ];
+
+        return $attribute[$originalAttribute] ?? null;
     }
 }

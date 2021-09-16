@@ -70,7 +70,7 @@ class CategoryTrasformer extends TransformerAbstract
     {
         $attribute = [
             'identifier' => 'id',
-            'name' => 'name',
+            'title' => 'name',
             'details' => 'description',
             'creationDate' => 'created_at',
             'lastChangeDate' => 'updated_at',
@@ -78,5 +78,19 @@ class CategoryTrasformer extends TransformerAbstract
         ];
 
         return $attribute[$transformedAttribute] ?? null;
+    }
+
+    public static function getTransformedAttribute(string $originalAttribute)
+    {
+        $attribute = [
+            'id' => 'identifier',
+            'name' => 'title',
+            'description' => 'details',
+            'created_at' => 'creationDate',
+            'updated_at' => 'lastChangeDate',
+            'deleted_at' => 'deletionDate',
+        ];
+
+        return $attribute[$originalAttribute] ?? null;
     }
 }

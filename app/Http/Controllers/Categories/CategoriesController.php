@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Categories;
 
 use App\Http\Controllers\ApiController;
 use App\Models\Category;
+use App\Transformers\CategoryTrasformer;
 use Illuminate\Http\Request;
 
 class CategoriesController extends ApiController
@@ -13,6 +14,12 @@ class CategoriesController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('transform.input:' . CategoryTrasformer::class)->only('store', 'update');
+    }
+
     public function index()
     {
         $categories = Category::all();
