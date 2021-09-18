@@ -22,7 +22,7 @@ class TransformInput
             $transformedInput[$transformer::getOriginalAttribute($key)] = $value;
         }
         $request->replace($transformedInput);
-        // dd($request);
+        // dd($request->all());
         $response = $next($request);
 
         if (isset($response->exception) && $response->exception instanceof ValidationException) {

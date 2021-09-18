@@ -17,7 +17,7 @@ class ProductCategoryController extends ApiController
 
     public function update(Request $request, Product $product, Category $category)
     {
-        $product->categories()->syncWithoutDetaching($category->id);
+        $product->categories()->syncWithoutDetaching($category->id); // Sync the intermediate tables with a list of IDs without detaching.
         $categories = $product->categories;
         return $this->showAll($categories);
     }
