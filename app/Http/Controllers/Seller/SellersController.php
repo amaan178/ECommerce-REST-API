@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 
 class SellersController extends ApiController
 {
-
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only('index');
+    }
     public function index()
     {
         $sellers = Seller::has('products')->get();

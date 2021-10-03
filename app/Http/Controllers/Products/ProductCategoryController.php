@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class ProductCategoryController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('client.credentials');
+        $this->middleware('auth:api');
+    }
+
     public function index(Product $product)
     {
         $categories = $product->categories;

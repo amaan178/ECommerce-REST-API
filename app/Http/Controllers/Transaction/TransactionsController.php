@@ -7,13 +7,16 @@ use App\Models\Transaction;
 
 class TransactionsController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     public function index()
     {
         $transactions = Transaction::all();
         return $this->showAll($transactions);
     }
-
 
     public function show(Transaction $transaction)
     {

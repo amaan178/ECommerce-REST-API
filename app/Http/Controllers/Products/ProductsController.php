@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 class ProductsController extends ApiController
 {
 
+    public function __construct()
+    {
+        $this->middleware('client.credentials')->only('index', 'show');
+        $this->middleware('auth:api');
+    }
+
     public function index()
     {
         $products = Product::all();

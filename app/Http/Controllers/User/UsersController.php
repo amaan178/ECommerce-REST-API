@@ -20,6 +20,8 @@ class UsersController extends ApiController
     public function __construct()
     {
         $this->middleware('transform.input:' . UserTrasformer::class)->only('store', 'update');
+        $this->middleware('client.credentials')->only('store', 'resend');
+        $this->middleware('auth:api');
     }
 
     public function index()

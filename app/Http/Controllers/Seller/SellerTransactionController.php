@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class SellerTransactionController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only('index');
+    }
     public function index(Seller $seller)
     {
         $transactions = $seller->products()

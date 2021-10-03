@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class SellerBuyerController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only('index');
+    }
     public function index(Seller $seller)
     {
         $buyers = $seller->products()
