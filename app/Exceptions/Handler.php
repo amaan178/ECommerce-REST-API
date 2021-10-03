@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -86,10 +87,24 @@ class Handler extends ExceptionHandler
     }
     protected function convertValidationExceptionToResponse(ValidationException $e,$request)
     {
+        if($this->isFrontEnd($request)) {
+            if($request->ajax()) {
+                return $this->reportMultipleErrors($e->errors(), 422);
+            }
+            return redirect()->back()->withInput($request->input())->withErrors($e->errors());
+        }
         return $this->reportMultipleErrors($e->errors(),422);
     }
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+        if($this->isFrontEnd($request)) {
+            return redirect()->quest('login');
+        }
         return $this->errorResponse("Unauthenticated",401);
+    }
+
+    protected function isFrontEnd(Request $request): bool
+    {
+        return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web');
     }
 }
