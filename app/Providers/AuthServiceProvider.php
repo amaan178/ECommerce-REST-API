@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,15 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Passport::tokensExpireIn(now()->addMinutes(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+
+        // To add multiple Scopes
+        Passport::tokensCan([
+            'purchase-product' => 'Create a new Transaction for a specific product',
+            'manage-account' => 'Read your account data such as id,name,emsail,is_verified and is _admin (password is not given). Modify yout account data(email and password). CANNOT DELETE ACCOUNT',
+            'manage-product' => 'CRUD for Products',
+            'read-general' => 'Read general info like categories,products,purchased products, your transactions'
+        ]);
     }
 }
