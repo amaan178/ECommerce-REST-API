@@ -11,6 +11,7 @@ class TransactionsController extends ApiController
     {
         $this->middleware('auth:api');
         $this->middleware('scope:read-general')->only('show');
+        $this->middleware('can:view,transaction')->only('show');
     }
 
     public function index()

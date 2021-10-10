@@ -11,6 +11,7 @@ class TransactinCategoryController extends ApiController
     public function __construct()
     {
         $this->middleware('auth:api')->only('index');
+        $this->middleware('can:view,transaction')->only('index');
     }
 
     public function index(Transaction $transaction)
