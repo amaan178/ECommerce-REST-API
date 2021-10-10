@@ -21,7 +21,8 @@ class UsersController extends ApiController
     {
         $this->middleware('transform.input:' . UserTrasformer::class)->only('store', 'update');
         $this->middleware('client.credentials')->only('store', 'resend');
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except('store', 'resend','verify');
+        $this->middleware('scope:manage-account')->only('show', 'update');
     }
 
     public function index()

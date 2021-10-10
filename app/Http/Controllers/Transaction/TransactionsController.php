@@ -10,6 +10,7 @@ class TransactionsController extends ApiController
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->middleware('scope:read-general')->only('show');
     }
 
     public function index()
