@@ -13,6 +13,10 @@ class ProductCategoryController extends ApiController
     {
         $this->middleware('client.credentials');
         $this->middleware('auth:api');
+        $this->middleware('scope:manage-product')->except('index');
+
+        $this->middleware('can:add-category,product')->only('update');
+        $this->middleware('can:delete-category,product')->only('destroy');
     }
 
     public function index(Product $product)
