@@ -10,11 +10,17 @@ class TransactionPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
+
     public function view(User $user, Transaction $transaction)
     {
         return $this->isBuyer($user, $transaction) || $this->isSeller($user, $transaction);
     }
-
 
     private function isBuyer(User $user, Transaction $transaction): bool
     {

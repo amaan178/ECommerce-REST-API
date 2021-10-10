@@ -10,6 +10,13 @@ class SellerPolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $user)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+    }
+
     public function view(User $user, Seller $seller)
     {
         return $user->id === $seller->id;
