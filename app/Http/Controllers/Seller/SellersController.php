@@ -12,6 +12,7 @@ class SellersController extends ApiController
     {
         $this->middleware('auth:api')->only('index');
         $this->middleware('scope:read-general')->only('show');
+        $this->middleware('can:view,seller')->only('show');
     }
     public function index()
     {
